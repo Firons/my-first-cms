@@ -1,6 +1,6 @@
 <?php
 try {
-    // Включаем полное отображение ошибок
+	// Включаем полное отображение ошибок
     ini_set("display_errors", true);
     error_reporting(E_ALL);
     

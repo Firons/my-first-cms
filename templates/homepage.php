@@ -5,18 +5,18 @@
         <li class='<?php echo $article->id?>'>
             <h2>
                 <span class="pubDate">
-                    <?php echo date('j F', $article->publicationDate)?>
+                    <?php echo date('j F', $article->publicationDate)?> <!-- Вывод даты создания статьи-->
                 </span>
                 
                 <a href=".?action=viewArticle&amp;articleId=<?php echo $article->id?>">
-                    <?php echo htmlspecialchars( $article->title )?>
+                    <?php echo htmlspecialchars( $article->title )?> <!-- Вывод заголовка статьи-->
                 </a>
                 
                 <?php if (isset($article->categoryId)) { ?>
                     <span class="category">
                         in 
                         <a href=".?action=archive&amp;categoryId=<?php echo $article->categoryId?>">
-                            <?php echo htmlspecialchars($results['categories'][$article->categoryId]->name )?>
+                            <?php echo htmlspecialchars($results['categories'][$article->categoryId]->name )?> <!-- Вывод категории статьи-->
                         </a>
                     </span>
                 <?php } 
@@ -26,7 +26,12 @@
                     </span>
                 <?php } ?>
             </h2>
-            <p class="summary"><?php echo htmlspecialchars($article->summary)?></p>
+            <p class="summary content"><?php htmlspecialchars($article->summary);
+			//Практическое задание: заменяем вывод поля краткого содержания на 
+			//вывод первых 50-ти символов поля (столбца таблицы) content + многочия.
+			$str = htmlspecialchars($article->content); 
+			echo mb_substr($str, 0, 50, 'utf-8') . "..."?></p>
+			
             <img id="loader-identity" src="JS/ajax-loader.gif" alt="gif">
             
             <ul class="ajax-load">

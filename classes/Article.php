@@ -64,7 +64,7 @@ class Article
           $this->id = (int) $data['id'];
       }
       
-      if (isset( $data['publicationDate'])) {
+      if (isset($data['publicationDate'])) {
           $this->publicationDate = (string) $data['publicationDate'];     
       }
 
