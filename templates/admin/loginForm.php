@@ -3,7 +3,7 @@
     <form action="admin.php?action=login" method="post" style="width: 50%;">
         <input type="hidden" name="login" value="true" />
 
-        <?php if ( isset( $results['errorMessage'] ) ) { ?>
+        <?php if (isset( $results['errorMessage'])) { ?>
                 <div class="errorMessage"><?php echo $results['errorMessage'] ?></div>
         <?php } ?>
 

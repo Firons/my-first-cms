@@ -3,12 +3,12 @@
 	  
     <h1>All Articles</h1>
 
-    <?php if ( isset( $results['errorMessage'] ) ) { ?>
+    <?php if (isset($results['errorMessage'])) { ?>
             <div class="errorMessage"><?php echo $results['errorMessage'] ?></div>
     <?php } ?>
 
 
-    <?php if ( isset( $results['statusMessage'] ) ) { ?>
+    <?php if (isset($results['statusMessage'])) { ?>
             <div class="statusMessage"><?php echo $results['statusMessage'] ?></div>
     <?php } ?>
 
@@ -16,9 +16,11 @@
             <tr>
               <th>Publication Date</th>
               <th>Article</th>
-              <th>Category</th>
+		      <th>Category</th>
+			  <!-- Добавляем поле active -->
+			  <th>Active</th>
             </tr>
-
+			
 <!--<?php echo "<pre>"; print_r ($results['articles'][2]->publicationDate); echo "</pre>"; ?> Обращаемся к дате массива $results. Дата = 0 -->
             
     <?php foreach ( $results['articles'] as $article ) { ?>
@@ -26,7 +28,7 @@
             <tr onclick="location='admin.php?action=editArticle&amp;articleId=<?php echo $article->id?>'">
               <td><?php echo date('j M Y', $article->publicationDate)?></td>
               <td>
-                <?php echo $article->title?>
+                <?php echo $article->title ?>
               </td>
               <td>
                   
@@ -39,10 +41,21 @@
                     echo $results['categories'][$article->categoryId]->name;                        
                 }
                 else {
-                echo "Без категории";
+					echo "Без категории";
                 }?>
               </td>
+			  <!--Практическое задание №2-->
+			  <td>
+				  <?php
+				  if ($article->active != 0) {
+					  echo "Статья активна.";
+				  }
+				  else {
+					  echo "Статья не активна.";
+				  }?>
+			  </td>
             </tr>
+			
 
     <?php } ?>
 

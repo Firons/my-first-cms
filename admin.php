@@ -59,13 +59,13 @@ function login() {
 
           // Вход прошел успешно: создаем сессию и перенаправляем на страницу администратора
           $_SESSION['username'] = ADMIN_USERNAME;
-          header( "Location: admin.php");
+          header("Location: admin.php");
 
         } else {
 
           // Ошибка входа: выводим сообщение об ошибке для пользователя
           $results['errorMessage'] = "Неправильный пароль, попробуйте ещё раз.";
-          require( TEMPLATE_PATH . "/admin/loginForm.php" );
+          require(TEMPLATE_PATH . "/admin/loginForm.php");
         }
 
     } else {
@@ -78,8 +78,8 @@ function login() {
 
 
 function logout() {
-    unset( $_SESSION['username'] );
-    header( "Location: admin.php" );
+    unset($_SESSION['username']);
+    header("Location: admin.php");
 }
 
 
@@ -89,7 +89,7 @@ function newArticle() {
     $results['pageTitle'] = "New Article";
     $results['formAction'] = "newArticle";
 
-    if ( isset( $_POST['saveChanges'] ) ) {
+    if (isset($_POST['saveChanges'])) {
 //            echo "<pre>";
 //            print_r($results);
 //            print_r($_POST);
@@ -97,15 +97,15 @@ function newArticle() {
 //            В $_POST данные о статье сохраняются корректно
         // Пользователь получает форму редактирования статьи: сохраняем новую статью
         $article = new Article();
-        $article->storeFormValues( $_POST );
+        $article->storeFormValues($_POST);
 //            echo "<pre>";
 //            print_r($article);
 //            echo "<pre>";
 //            А здесь данные массива $article уже неполные(есть только Число от даты, категория и полный текст статьи)          
         $article->insert();
-        header( "Location: admin.php?status=changesSaved" );
+        header("Location: admin.php?status=changesSaved" );
 
-    } elseif ( isset( $_POST['cancel'] ) ) {
+    } elseif (isset($_POST['cancel'])) {
 
         // Пользователь сбросил результаты редактирования: возвращаемся к списку статей
         header( "Location: admin.php" );
@@ -134,19 +134,19 @@ function editArticle() {
     if (isset($_POST['saveChanges'])) {
 
         // Пользователь получил форму редактирования статьи: сохраняем изменения
-        if ( !$article = Article::getById( (int)$_POST['articleId'] ) ) {
-            header( "Location: admin.php?error=articleNotFound" );
-            return;
-        }
+        if (!$article = Article::getById((int) $_POST['articleId'])) {
+			header("Location: admin.php?error=articleNotFound");
+			return;
+		}
 
-        $article->storeFormValues( $_POST );
-        $article->update();
+		$article->storeFormValues($_POST);
+		$article->update();
         header( "Location: admin.php?status=changesSaved" );
 
-    } elseif ( isset( $_POST['cancel'] ) ) {
+    } elseif (isset($_POST['cancel'])) {
 
         // Пользователь отказался от результатов редактирования: возвращаемся к списку статей
-        header( "Location: admin.php" );
+        header("Location: admin.php");
     } else {
 
         // Пользвоатель еще не получил форму редактирования: выводим форму
@@ -175,8 +175,8 @@ function listArticles() {
     $results = array();
     
     $data = Article::getList();
-    $results['articles'] = $data['results'];
-    $results['totalRows'] = $data['totalRows'];
+	$results['articles'] = $data['results'];
+	$results['totalRows'] = $data['totalRows'];
     
     $data = Category::getList();
     $results['categories'] = array();
@@ -234,11 +234,11 @@ function newCategory() {
 
         // User has posted the category edit form: save the new category
         $category = new Category;
-        $category->storeFormValues( $_POST );
+        $category->storeFormValues($_POST);
         $category->insert();
         header( "Location: admin.php?action=listCategories&status=changesSaved" );
 
-    } elseif ( isset( $_POST['cancel'] ) ) {
+    } elseif (isset($_POST['cancel'])) {
 
         // User has cancelled their edits: return to the category list
         header( "Location: admin.php?action=listCategories" );
@@ -246,7 +246,7 @@ function newCategory() {
 
         // User has not posted the category edit form yet: display the form
         $results['category'] = new Category;
-        require( TEMPLATE_PATH . "/admin/editCategory.php" );
+        require(TEMPLATE_PATH . "/admin/editCategory.php");
     }
 
 }
@@ -258,7 +258,7 @@ function editCategory() {
     $results['pageTitle'] = "Edit Article Category";
     $results['formAction'] = "editCategory";
 
-    if ( isset( $_POST['saveChanges'] ) ) {
+    if (isset($_POST['saveChanges'])) {
 
         // User has posted the category edit form: save the category changes
 
@@ -287,20 +287,20 @@ function editCategory() {
 
 function deleteCategory() {
 
-    if ( !$category = Category::getById( (int)$_GET['categoryId'] ) ) {
+    if (!$category = Category::getById((int)$_GET['categoryId'])) {
         header( "Location: admin.php?action=listCategories&error=categoryNotFound" );
         return;
     }
 
     $articles = Article::getList( 1000000, $category->id );
 
-    if ( $articles['totalRows'] > 0 ) {
-        header( "Location: admin.php?action=listCategories&error=categoryContainsArticles" );
+    if ($articles['totalRows'] > 0) {
+        header("Location: admin.php?action=listCategories&error=categoryContainsArticles");
         return;
     }
 
     $category->delete();
-    header( "Location: admin.php?action=listCategories&status=categoryDeleted" );
+    header("Location: admin.php?action=listCategories&status=categoryDeleted");
 }
 
         
