@@ -10,9 +10,9 @@
         <form action="admin.php?action=<?php echo $results['formAction']?>" method="post">
             <input type="hidden" name="articleId" value="<?php echo $results['article']->id ?>">
 
-    <?php if ( isset( $results['errorMessage'] ) ) { ?>
-            <div class="errorMessage"><?php echo $results['errorMessage'] ?></div>
-    <?php } ?>
+			<?php if (isset($results['errorMessage'])) { ?>
+	            <div class="errorMessage"><?php echo $results['errorMessage'] ?></div>
+			<?php } ?>
 
             <ul>
 
@@ -45,20 +45,6 @@
                 <label for="publicationDate">Publication Date</label>
                 <input type="date" name="publicationDate" id="publicationDate" placeholder="YYYY-MM-DD" required maxlength="10" value="<?php echo $results['article']->publicationDate ? date( "Y-m-d", $results['article']->publicationDate ) : "" ?>" />
               </li>
-			  
-			  <!-- Добавление checkbox-->
-			  <li>
-				  <div class="active">
-					  <label for="active">Active</label>
-					  <input type="hidden" name="active" value="0">
-					  <input type="checkbox" name="active" value="1"
-					  <?php
-					  if ($results['article']->active != 0) {
-						  echo 'checked';}
-					  ?>>  
-				  </div>
-			  </li>
-
 
             </ul>
 
@@ -66,7 +52,7 @@
               <input type="submit" name="saveChanges" value="Save Changes" />
               <input type="submit" formnovalidate name="cancel" value="Cancel" />
             </div>
-
+			
         </form>
 
     <?php if ($results['article']->id) { ?>

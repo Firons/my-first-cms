@@ -1,14 +1,14 @@
 <?php include "templates/include/header.php" ?>
-	<?php include "templates/admin/include/header.php" ?>
+<?php include "templates/admin/include/header.php" ?>
 	  
-            <h1>Article Categories</h1>
+<h1>Article Categories</h1>
 	  
 	<?php if ( isset( $results['errorMessage'] ) ) { ?>
 	        <div class="errorMessage"><?php echo $results['errorMessage'] ?></div>
 	<?php } ?>
 	  
 	  
-	<?php if ( isset( $results['statusMessage'] ) ) { ?>
+	<?php if (isset($results['statusMessage'])) { ?>
 	        <div class="statusMessage"><?php echo $results['statusMessage'] ?></div>
 	<?php } ?>
 	  
