@@ -68,10 +68,11 @@ class Users
 	{
 		// Сохраняем все параметры
 		$this->__construct($params);
+		//echo ('<pre>'); print_r($this); echo ('</pre>');  die();
 		
 		// Разбираем и сохраняем дату регистрации
 		if (isset($params['whenRegistred'])) {
-			$whenRegistrede = explode('-', $params['whenRegistred']);
+			$whenRegistred = explode('-', $params['whenRegistred']);
 
 			if (count($whenRegistred) == 3) {
 				list ($y, $m, $d) = $whenRegistred;
@@ -128,8 +129,8 @@ class Users
 		
 		$list = array();
 		while ($row = $str->fetch()) {
-            $users = new Users($row);
-            $list[] = $users;
+            $user = new Users($row);
+            $list[] = $user;
         }
 		
 		$sql = "SELECT FOUND_ROWS() AS totalRows";
@@ -144,7 +145,7 @@ class Users
 	}
 	
 	/**
-    * Вставляем текущий объек Users в базу данных, устанавливаем его ID.
+    * Вставляем текущий объект Users в базу данных, устанавливаем его ID.
     */
     public function insert()
 	{
@@ -153,19 +154,19 @@ class Users
 			trigger_error("Users::insert(): Attempt to insert an Users object"
 			. " that already has its ID property set (to $this->id).", E_USER_ERROR);
 		}
-		
+					
 		// Вставляем пользователя
-        $connection = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-        $sql = "INSERT INTO users (whenRegistred, login, password, activeUser) "
-				. "VALUES (FROM_UNIXTIME(:whenRegistred), :login, :password, :activeUser)";
-        $str = $connection->prepare ($sql);
-        $str->bindValue(":whenRegistred", $this->whenRegistred, PDO::PARAM_INT);
-        $str->bindValue(":login", $this->login, PDO::PARAM_STR);
-        $str->bindValue(":password", $this->password, PDO::PARAM_STR);
-        $str->bindValue(":activeUser", $this->activeUser, PDO::PARAM_INT);        
-        $str->execute();
-        $this->id = $connection->lastInsertId();
-        $connection = null;
+		$connection = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+		$sql = "INSERT INTO users (whenRegistred, login, password, activeUser) VALUES (FROM_UNIXTIME(:whenRegistred), :login, :password, :activeUser)";
+		$str = $connection->prepare ($sql);
+		$str->bindValue(":whenRegistred", $this->whenRegistred, PDO::PARAM_INT);
+		$str->bindValue(":login", $this->login, PDO::PARAM_STR);
+		$str->bindValue(":password", $this->password, PDO::PARAM_STR);
+		$str->bindValue(":activeUser", $this->activeUser, PDO::PARAM_INT);
+		$str->execute();
+		$this->id = $connection->lastInsertId();
+		$connection = null;
+			
 	}
 	
 	/**
@@ -189,7 +190,8 @@ class Users
         $str->bindValue(":whenRegistred", $this->whenRegistred, PDO::PARAM_INT);
         $str->bindValue(":login", $this->login, PDO::PARAM_STR);
         $str->bindValue(":password", $this->password, PDO::PARAM_STR);
-        $str->bindValue(":activeUser", $this->activeUser, PDO::PARAM_INT); 
+        $str->bindValue(":activeUser", $this->activeUser, PDO::PARAM_INT);
+		$str->bindValue(":id", $this->id, PDO::PARAM_INT);
 		$str->execute();
 		$connection = null;
 	}
@@ -211,6 +213,20 @@ class Users
 		$str->bindValue(":id", $this->id, PDO::PARAM_INT);
 		$str->execute();
 		$connection = null;
+	}
+	
+	public static function getByLogin($login) {
+		$connection = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+		$sql = "SELECT * FROM users WHERE login = :login";
+		$str = $connection->prepare($sql);
+		$str->bindValue(":login", $login, PDO::PARAM_STR);
+		$str->execute();
+		$row = $str->fetch();
+		$connection = null;
+
+		if ($row){
+			return new Users($row);
+		}
 	}
 
 }

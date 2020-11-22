@@ -313,6 +313,19 @@ tr:hover {
   cursor: pointer;
 }
 
+/* Парктическое задание №3*/
+ 
+.pass {
+  color: transparent;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 1);
+  font-size: 25px;
+  -webkit-transition: text-shadow 2.0 ease-out;
+  -moz-transition: text-shadow 2.0 ease-out;
+  -ms-transition: text-shadow 2.0 ease-out;
+  -o-transition: text-shadow 2.0 ease-out;
+  transition: text-shadow 2.0 ease-out;
+}
+
 
 /* Окна для вывода статуса и сообщений об ошибках */
 
